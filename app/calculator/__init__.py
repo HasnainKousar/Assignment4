@@ -100,12 +100,20 @@ def calculator():
             #ask the user for input
             user_input = input(">>" ).strip()
 
-            # Check if the input is empty or a special command
+
+            # Example of Look Before You Leap (LBYL) principle:
+            # Before processing the input, we check if it is empty
+            # This prevents unnecessary processing of empty input
             if not user_input:
                continue  # Skip empty input
            
+
+
+            # LBYL: Check for special commands ('help', 'exit' or 'history) before processing the input
+            # ----------------------------------------------------------------
+
             #check if the user wants to exit
-            elif user_input.lower() == "exit":
+            if user_input.lower() == "exit":
                print("Exiting calculator. Goodbye!") #print a message when the user wants to exit
                sys.exit(0)  # Exit the program gracefully
             
@@ -119,21 +127,28 @@ def calculator():
                display_history(history)
                continue
 
-            #try to parse the user input into operation and numbers
-            # If the input is not a special command, split it into operation and numbers
-            # The expected format is: <operation> <num1> <num2>
+            
+            # EAFP (It's Easier to Ask for Forgiveness than Permission) principle:
+            #-------------------------------------------------------------------
+            # instead of checking if the input is in the correct format,
+            # we try to split the input and convert the numbers, catching any exceptions that arise.
+
             try:
+                # Split the input into operation and two numbers
+                # The input should be in the format: <operation> <num1> <num2>
                 operation, num1_str, num2_str = user_input.split() #spliyt the input into operation and two numbers
 
                 num1 = float(num1_str) # Convert the first number to float
                 num2 = float(num2_str) # Convert the second number to float
 
-            # If the input format is incorrect, raise a ValueError
+            # raidse a ValueError if the input is not in the correct format or 
+            # if the numbers cannot be converted to float
             except ValueError:
                 print("Invalid input. Please follow the format: <operation> <num1> <num2>") 
                 print("Type 'help' for usage instructions.")
                 continue
             
+
             #try to create a calculator object based on the operation
             try:
                 # Create a Calculation object using the CalculatorFactory
@@ -171,11 +186,18 @@ def calculator():
             # Append the calculation to the history
             history.append(calculation)  # Store the calculation in history
 
+        
+
+
         # Handle keyboard interrupts (Ctrl+C) and EOF (Ctrl+D)
         except KeyboardInterrupt:
+            # EAFP: Handle exceptions that may occur during input processing
+            # This includes handling keyboard interrupts (Ctrl+C) 
+            # Instead of checking for specific errors, we catch all exceptions that may arise
             print("\nExiting calculator. Goodbye!")
             sys.exit(0)
         except EOFError:
+            # EAFP: Handle EOFError (Ctrl+D) gracefully
             print("\nExiting calculator. Goodbye!")
             sys.exit(0)
 
@@ -183,5 +205,6 @@ def calculator():
 # if the script is run directly, start the calculator REPL
 if __name__ == "__main__":
     calculator()
+
 
 
