@@ -201,25 +201,26 @@ def test_divide_calculation_excute_negative(mock_divide):
     assert str(e.value) == "Division error"
 
 #========== Diviode by Zero Test Case ===========
-@patch.object(Operations, 'divide', side_effect=ValueError("Cannot divide by zero."))
+@patch.object(Operations, 'divide', side_effect=ZeroDivisionError("Cannot divide by zero."))
 def test_divide_calculation_zero_division(mock_divide):
     """
     Test the execute method of DivideCalculator for division by zero.
     
-    This test verifies that the DivideCalculator raises a ValueError when attempting to divide by zero.
+    This test verifies that the DivideCalculator raises a ZeroDivisionError when attempting to divide by zero.
     """
 
     #Arrange
     a = 10.0
     b = 0.0
-    mock_divide.side_effect = ValueError("Cannot divide by zero.")
+    mock_divide.side_effect = ZeroDivisionError("Cannot divide by zero.")
     calc = DivideCalculator(a, b)
 
     #Act & Assert
-    with pytest.raises(ValueError) as e:
+    with pytest.raises(ZeroDivisionError) as e:
         calc.excute()
     
     assert str(e.value) == "Cannot divide by zero."
+    
 
 
 
