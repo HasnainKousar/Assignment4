@@ -5,6 +5,8 @@ we will use unit tests and parameterized tests to ensure the calculator's functi
 
 """
 
+from unittest import result
+from unittest import mock
 import pytest
 from app.operations import Operations
 from unittest.mock import patch
@@ -16,6 +18,222 @@ from app.calculation import (
     MultiplyCalculator,
     DivideCalculator,
 )
+
+
+#========== Positive Test Cases for Concrete Calculation Classes ===========
+
+@patch.object(Operations, 'add', return_value=8.0)
+def test_add_calculation_excute_positive(mock_add):
+    """
+    Test the execute method of AddCalculator for a positive scenario.
+    
+    
+    This test verifies that the AddCalculator correctly calls the add method from Operations
+    with provided operands and returns the expected result.
+    """
+
+    #Arrange
+    a = 5.0
+    b = 3.0
+    expected_result = 8.0
+    mock_add.return_value = expected_result # Mock the add method to return the expected result
+    calc = AddCalculator(a, b)
+
+    #Act
+    result = calc.excute()
+
+    #Assert
+    assert result == expected_result
+
+
+@patch.object(Operations, 'subtract', return_value=3.0)
+def test_subtract_calculation_excute_positive(mock_subtract):
+    """
+    Test the execute method of SubtractCalculator for a positive scenario.
+    
+    This test verifies that the SubtractCalculator correctly calls the subtract method from Operations
+    with provided operands and returns the expected result.
+    """
+
+    #Arrange
+    a = 8.0
+    b = 5.0
+    expected_result = 3.0
+    mock_subtract.return_value = expected_result
+    calc = SubtractCalculator(a, b)
+
+    #Act
+    result = calc.excute()
+
+    #Assert
+    assert result == expected_result
+
+
+
+@patch.object(Operations, 'multiply', return_value=10.0)
+def test_multiply_calculation_excute_positive(mock_multiply):
+    """
+    Test the execute method of MultiplyCalculator for a positive scenario.
+    
+    This test verifies that the MultiplyCalculator correctly calls the multiply method from Operations
+    with provided operands and returns the expected result.
+    """
+
+    #Arrange
+    a = 4.0
+    b = 2.5
+    expected_result = 10.0
+    mock_multiply.return_value = expected_result
+    calc = MultiplyCalculator(a, b)
+
+    #Act
+    result = calc.excute()
+
+    #Assert
+    assert result == expected_result
+
+
+
+@patch.object(Operations, 'divide', return_value=5.0)
+def test_divide_calculation_excute_positive(mock_divide):
+    """
+    Test the execute method of DivideCalculator for a positive scenario.
+    
+    This test verifies that the DivideCalculator correctly calls the divide method from Operations
+    with provided operands and returns the expected result.
+    """
+
+    #Arrange
+    a = 10.0
+    b = 2.0
+    expected_result = 5.0
+    mock_divide.return_value = expected_result
+    calc = DivideCalculator(a, b)
+
+    #Act
+    result = calc.excute()
+
+    #Assert
+    assert result == expected_result
+
+
+#========== Negative Test Cases for Concrete Calculation Classes ===========
+
+@patch.object(Operations, 'add', side_effect=ValueError("Addtion error"))
+def test_add_calculation_excute_negative(mock_add):
+    """
+    Test the execute method of AddCalculator for a negative scenario.
+    
+    This test verifies that the AddCalculator raises a ValueError when the add method from Operations fails.
+    """
+
+    #Arrange
+    a = 5.0
+    b = 3.0
+    mock_add.side_effect = ValueError("Addition error")  # Mock the add method to raise a ValueError
+    calc = AddCalculator(a, b)
+
+    #Act & Assert
+    with pytest.raises(ValueError) as e:
+        calc.excute()
+    
+    assert str(e.value) == "Addition error"
+
+
+@patch.object(Operations, 'subtract', side_effect=ValueError("Subtraction error"))
+def test_subtract_calculation_excute_negative(mock_subtract):
+    """
+    Test the execute method of SubtractCalculator for a negative scenario.
+    
+    This test verifies that the SubtractCalculator raises a ValueError when the subtract method from Operations fails.
+    """
+
+    #Arrange
+    a = 8.0
+    b = 5.0
+    mock_subtract.side_effect = ValueError("Subtraction error")
+    calc = SubtractCalculator(a, b)
+
+    #Act & Assert
+    with pytest.raises(ValueError) as e:
+        calc.excute()
+    
+    assert str(e.value) == "Subtraction error"
+
+
+@patch.object(Operations, 'multiply', side_effect=ValueError("Multiplication error"))
+def test_multiply_calculation_excute_negative(mock_multiply):
+    """
+    Test the execute method of MultiplyCalculator for a negative scenario.
+    
+    This test verifies that the MultiplyCalculator raises a ValueError when the multiply method from Operations fails.
+    """
+
+    #Arrange
+    a = 4.0
+    b = 2.5
+    mock_multiply.side_effect = ValueError("Multiplication error")
+    calc = MultiplyCalculator(a, b)
+
+    #Act & Assert
+    with pytest.raises(ValueError) as e:
+        calc.excute()
+    
+    assert str(e.value) == "Multiplication error"
+
+
+@patch.object(Operations, 'divide', side_effect=ValueError("Division error"))
+def test_divide_calculation_excute_negative(mock_divide):
+    """
+    Test the execute method of DivideCalculator for a negative scenario.
+    
+    This test verifies that the DivideCalculator raises a ValueError when the divide method from Operations fails.
+    """
+
+    #Arrange
+    a = 10.0
+    b = 2.0
+    mock_divide.side_effect = ValueError("Division error")
+    calc = DivideCalculator(a, b)
+
+    #Act & Assert
+    with pytest.raises(ValueError) as e:
+        calc.excute()
+    
+    assert str(e.value) == "Division error"
+
+#========== Diviode by Zero Test Case ===========
+@patch.object(Operations, 'divide', side_effect=ValueError("Cannot divide by zero."))
+def test_divide_calculation_zero_division(mock_divide):
+    """
+    Test the execute method of DivideCalculator for division by zero.
+    
+    This test verifies that the DivideCalculator raises a ValueError when attempting to divide by zero.
+    """
+
+    #Arrange
+    a = 10.0
+    b = 0.0
+    mock_divide.side_effect = ValueError("Cannot divide by zero.")
+    calc = DivideCalculator(a, b)
+
+    #Act & Assert
+    with pytest.raises(ValueError) as e:
+        calc.excute()
+    
+    assert str(e.value) == "Cannot divide by zero."
+
+
+
+
+
+
+
+
+
+
+    
+
 
 
 #========== Test Cases for CalculatorFactory ===========
@@ -145,17 +363,9 @@ def test_calculator_factory_duplicate_registration():
                 
     # Assert that a ValueError is raised with the expected message
     assert f"Calculation type 'add' already registered." in str(e.value)
-    
 
 
-# def test_duplicate_calculator_registration():
-#     # Attempt to register another calculator for an already registered operation
-#     with pytest.raises(ValueError, match="Calculaton type 'add' already registered."):
-#         @CalculatorFactory.register_calculator("add")
-#         class DummyAddCalculator(Calculation):
-#             operator_symbol = "+"
-#             def excute(self):
-#                 return Operations.add(self.a, self.b)
+
 
 
 #========== Test String Representation of Calculation Classes ===========
