@@ -118,7 +118,7 @@ class CalculatorFactory:
             # Check if the calculation_type is already registered.
             if calculation_type in cls._calculation:
                 # If it is, raise a ValueError to prevent overwriting.
-                raise ValueError(f"Calculator for '{calculation_type}' already registered.")
+                raise ValueError(f"Calculation type '{calculation_type}' already registered.")
             # Register the subclass in the _calculation dictionary.
             cls._calculation[calculation_type] = subclass
             return subclass #return the subclass for further use.
