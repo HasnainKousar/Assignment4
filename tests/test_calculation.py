@@ -5,8 +5,6 @@ we will use unit tests and parameterized tests to ensure the calculator's functi
 
 """
 
-from unittest import result
-from unittest import mock
 import pytest
 from app.operations import Operations
 from unittest.mock import patch
@@ -225,17 +223,6 @@ def test_divide_calculation_zero_division(mock_divide):
 
 
 
-
-
-
-
-
-
-
-    
-
-
-
 #========== Test Cases for CalculatorFactory ===========
 
 def test_calculator_factory_add():
@@ -447,17 +434,194 @@ def test_divide_calculation_str(mock_divide):
     assert result_str == "DivideCalculator: 10.0 / 2.0 = 5.0"
 
 
+#========== Test __repr__ Method of Calculation Classes ===========
 
 
+def test_calculation_repr_representation_add():
+    """
+    Test the __repr__ method of AddCalculator.
+    
+    This test checks if the __repr__ method of AddCalculator returns the expected string representation.
+    """
+    #Arrange
+    a = 5.0
+    b = 3.0
+    calc = AddCalculator(a, b)
+
+    #Act
+    result_repr = repr(calc)
+
+    #Assert
+    assert result_repr == "AddCalculator(a = 5.0, b = 3.0)"
+
+def test_calculation_repr_representation_subtract():
+    """
+    Test the __repr__ method of SubtractCalculator.
+    
+    This test checks if the __repr__ method of SubtractCalculator returns the expected string representation.
+    """
+    #Arrange
+    a = 8.0
+    b = 5.0
+    calc = SubtractCalculator(a, b)
+
+    #Act
+    result_repr = repr(calc)
+
+    #Assert
+    assert result_repr == "SubtractCalculator(a = 8.0, b = 5.0)"
 
 
+def test_calculation_repr_representation_multiply():
+    """
+    Test the __repr__ method of MultiplyCalculator.
+    This test checks if the __repr__ method of MultiplyCalculator returns the expected string representation.
+    """
+    #Arrange
+    a = 4.0
+    b = 2.5
+    calc = MultiplyCalculator(a, b)
 
+    #Act
+    result_repr = repr(calc)
+
+    #Assert
+    assert result_repr == "MultiplyCalculator(a = 4.0, b = 2.5)"
+
+def test_calculation_repr_representation_divide():
+    """
+    Test the __repr__ method of DivideCalculator.
+    
+    This test checks if the __repr__ method of DivideCalculator returns the expected string representation.
+    """
+    #Arrange
+    a = 10.0
+    b = 2.0
+    calc = DivideCalculator(a, b)
+
+    #Act
+    result_repr = repr(calc)
+
+    #Assert
+    assert result_repr == "DivideCalculator(a = 10.0, b = 2.0)"
 
 
 
 #========== Parameterized Tests for excute method ===========
 
+@pytest.mark.parametrize(
+    "calculator_type, a, b, expected_result",
+    [
+        ("add", 5.0, 3.0, 8.0),
+        ("subtract", 8.0, 5.0, 3.0),
+        ("multiply", 4.0, 2.5, 10.0),
+        ("divide", 10.0, 2.0, 5.0),
+    ]
+)
 
+@patch.object(Operations, 'add')
+@patch.object(Operations, 'subtract')
+@patch.object(Operations, 'multiply')
+@patch.object(Operations, 'divide')
+def test_calculation_execute_parameterized(
+    mock_divide, mock_multiply, mock_subtract, mock_add,
+    calculator_type, a, b, expected_result
+):
+    """
+    Parameterized test for the execute method of different calculation subclasses.
+    
+    This test checks if the execute method of each calculator type returns the expected result.
+    """
+    # Arrange
+    if calculator_type == "add":
+        mock_add.return_value = expected_result
+    elif calculator_type == "subtract":
+        mock_subtract.return_value = expected_result
+    elif calculator_type == "multiply":
+        mock_multiply.return_value = expected_result
+    elif calculator_type == "divide":
+        mock_divide.return_value = expected_result
+    
+    # Act
+    calc = CalculatorFactory.create_calculator(calculator_type, a, b)
+    result = calc.excute()
+
+    # Assert
+    if calculator_type == "add":
+        mock_add.assert_called_once_with(a, b)
+
+    elif calculator_type == "subtract":
+        mock_subtract.assert_called_once_with(a, b)
+    
+    elif calculator_type == "multiply":
+        mock_multiply.assert_called_once_with(a, b)
+
+    elif calculator_type == "divide":
+        mock_divide.assert_called_once_with(a, b)
+
+    assert result == expected_result
 
 
 #========== parameterized tests for string representation ===========
+
+@pytest.mark.parametrize("calculator_type, a, b, expected_str", [
+    ("add", 5.0, 3.0, "AddCalculator: 5.0 + 3.0 = 8.0"),
+    ("subtract", 8.0, 5.0, "SubtractCalculator: 8.0 - 5.0 = 3.0"),
+    ("multiply", 4.0, 2.5, "MultiplyCalculator: 4.0 * 2.5 = 10.0"),
+    ("divide", 10.0, 2.0, "DivideCalculator: 10.0 / 2.0 = 5.0"),
+])
+
+@patch.object(Operations, 'add', return_value=8.0)
+@patch.object(Operations, 'subtract', return_value=3.0)
+@patch.object(Operations, 'multiply', return_value=10.0)
+@patch.object(Operations, 'divide', return_value=5.0)
+
+def test_calculation_str_parameterized(
+    mock_divide, mock_multiply, mock_subtract, mock_add,
+    calculator_type, a, b, expected_str
+):
+    """
+    Parameterized test for the string representation of different calculation subclasses.
+    
+    This test checks if the string representation of each calculator type matches the expected format.
+    """
+    # Arrange
+    calc = CalculatorFactory.create_calculator(calculator_type, a, b)
+
+    # Act
+    result_str = str(calc)
+
+    # Assert
+    assert result_str == expected_str
+
+@pytest.mark.parametrize("calculator_type, a, b, expected_repr", [
+    ("add", 5.0, 3.0, "AddCalculator(a = 5.0, b = 3.0)"),
+    ("subtract", 8.0, 5.0, "SubtractCalculator(a = 8.0, b = 5.0)"),
+    ("multiply", 4.0, 2.5, "MultiplyCalculator(a = 4.0, b = 2.5)"),
+    ("divide", 10.0, 2.0, "DivideCalculator(a = 10.0, b = 2.0)"),
+])
+@patch.object(Operations, 'add', return_value=8.0)
+@patch.object(Operations, 'subtract', return_value=3.0)
+@patch.object(Operations, 'multiply', return_value=10.0)
+@patch.object(Operations, 'divide', return_value=5.0)
+def test_calculation_repr_parameterized(
+    mock_divide, mock_multiply, mock_subtract, mock_add,
+    calculator_type, a, b, expected_repr
+):
+    """
+    Parameterized test for the __repr__ method of different calculation subclasses.
+    
+    This test checks if the __repr__ method of each calculator type returns the expected string representation.
+    """
+    # Arrange
+    calc = CalculatorFactory.create_calculator(calculator_type, a, b)
+
+    # Act
+    result_repr = repr(calc)
+
+    # Assert
+    assert result_repr == expected_repr
+
+
+#========== End of Test Cases for Calculation Module ===========
+
