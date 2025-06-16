@@ -165,7 +165,7 @@ def calculator():
             #raise a ZeroDivisionError if the operation is division and the second number is zero
             except ZeroDivisionError:
                 print("Cannot divide by zero.")
-                print("Please enter a non-zero number for division.")
+                print("Please enter a non-zero divisor.")
                 continue
             
             # If any other unexpected error occurs, print a generic error message
