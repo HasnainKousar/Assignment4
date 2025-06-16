@@ -50,7 +50,7 @@ class Calculation(ABC):
         -An abstract method defines a contract for subclasses to implement specific behavior.
         -It allows for polymorphism, where different subclasses can provide their own implementations of the calculation.
         """
-        pass
+        pass # This is an abstract method, so it does not have an implementation here. # pragma: no cover
 
     # __str__ method provides a string representation of the calculation.
     def __str__(self) -> str:
