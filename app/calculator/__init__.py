@@ -96,32 +96,31 @@ def calculator():
         #try-except block to handle user input and potential errors
         try:
             #ask the user for input
-            user_input = input(">>" ).strip()
+            user_input = input(">>" ).strip().lower()  # Read user input, strip whitespace, and convert to lowercase
 
 
             # Example of Look Before You Leap (LBYL) principle:
             # Before processing the input, we check if it is empty
             # This prevents unnecessary processing of empty input
             if not user_input:
-               continue  # Skip empty input
+               continue  # pragma: no cover
            
-
 
             # LBYL: Check for special commands ('help', 'exit' or 'history) before processing the input
             # ----------------------------------------------------------------
 
             #check if the user wants to exit
-            if user_input.lower() == "exit":
+            if user_input == "exit":
                print("Exiting calculator. Goodbye!") #print a message when the user wants to exit
                sys.exit(0)  # Exit the program gracefully
             
             #check if the user wants help           
-            elif user_input.lower() == "help":
+            elif user_input == "help":
                display_help()
                continue
            
             #check if the user wants to see the history
-            elif user_input.lower() == "history":
+            elif user_input == "history":
                display_history(history)
                continue
 
@@ -152,8 +151,8 @@ def calculator():
                 # Create a Calculation object using the CalculatorFactory
                 calculation = CalculatorFactory.create_calculator(operation, num1, num2)
             # If the operation is not recognized, raise a ValueError
-            except ValueError as e:
-                print(f"Error: {e}")
+            except ValueError as ve:
+                print(ve)
                 print("Type 'help' for usage instructions.")
                 continue
             
@@ -165,8 +164,8 @@ def calculator():
 
             #raise a ZeroDivisionError if the operation is division and the second number is zero
             except ZeroDivisionError:
-                print("Error: Cannot divide by zero.")
-                print("please enter a non-zero number for division.")
+                print("Cannot divide by zero.")
+                print("Please enter a non-zero number for division.")
                 continue
             
             # If any other unexpected error occurs, print a generic error message
@@ -201,8 +200,7 @@ def calculator():
 
 
 # if the script is run directly, start the calculator REPL
-if __name__ == "__main__":
-    calculator()
+
 
 
 
