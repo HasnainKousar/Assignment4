@@ -62,7 +62,7 @@ class Operations:
        
         """
         if b == 0:
-            raise ValueError("Cannot divide by zero.")
+            raise ZeroDivisionError("Cannot divide by zero.")
         return a / b #math part where it will divide the two numbers and return the quotient as a float(decimal point number).
     
     # @staticmethod
