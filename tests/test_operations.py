@@ -225,7 +225,7 @@ def test_divide_by_zero():
     b = 0.0
 
     #Act & Assert
-    with pytest.raises(ValueError, match="Cannot divide by zero."):
+    with pytest.raises(ZeroDivisionError, match="Cannot divide by zero."):
         Operations.divide(a, b)
 
 
