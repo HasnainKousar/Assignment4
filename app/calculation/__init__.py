@@ -220,7 +220,7 @@ class DivideCalculator(Calculation):
         # Check if b is zero.
         if self.b == 0:
             #raise a ValueError if b is zero.
-            raise ValueError("Cannot divide by zero.") 
+            raise ZeroDivisionError("Cannot divide by zero.") 
         # If b is not zero, use the Operations class to perform the division operation.
         return Operations.divide(self.a, self.b)
 
