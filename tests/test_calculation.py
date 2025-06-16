@@ -37,9 +37,9 @@ def test_calculator_factory_add():
     calc = CalculatorFactory.create_calculator(operation, a, b)
 
     #Assert
-    assert isinstance(calc, AddCalculator), "Expected AddCalculator instance"
-    assert calc.a == a, "Expected a to be set correctly"
-    assert calc.b == b, "Expected b to be set correctly"
+    assert isinstance(calc, AddCalculator)
+    assert calc.a == a
+    assert calc.b == b
 
 
     
@@ -60,9 +60,9 @@ def test_calculator_factory_subtract():
     calc = CalculatorFactory.create_calculator(operation, a, b)
 
     #Assert
-    assert isinstance(calc, SubtractCalculator), "Expected SubtractCalculator instance"
-    assert calc.a == a, "Expected a to be set correctly"
-    assert calc.b == b, "Expected b to be set correctly"
+    assert isinstance(calc, SubtractCalculator)
+    assert calc.a == a
+    assert calc.b == b
 
 
 
@@ -83,10 +83,9 @@ def test_calculator_factory_multiply():
     calc = CalculatorFactory.create_calculator(operation, a, b)
 
     #Assert
-    assert isinstance(calc, MultiplyCalculator), "Expected MultiplyCalculator instance"
-    assert calc.a == a, "Expected a to be set correctly"
-    assert calc.b == b, "Expected b to be set correctly"
-
+    assert isinstance(calc, MultiplyCalculator)
+    assert calc.a == a
+    assert calc.b == b
 
 def test_calculator_factory_divide():
     """
@@ -103,9 +102,9 @@ def test_calculator_factory_divide():
     calc = CalculatorFactory.create_calculator(operation, a, b)
 
     #Assert
-    assert isinstance(calc, DivideCalculator), "Expected DivideCalculator instance"
-    assert calc.a == a, "Expected a to be set correctly"
-    assert calc.b == b, "Expected b to be set correctly"
+    assert isinstance(calc, DivideCalculator)
+    assert calc.a == a
+    assert calc.b == b
 
 
 def test_calculator_factory_invalid_operation():
@@ -126,7 +125,37 @@ def test_calculator_factory_invalid_operation():
     # Assert that a ValueError is raised with the expected message
     assert  f"Operation '{operation}' is not supported." in str(e.value) 
     
+def test_calculator_factory_duplicate_registration():
+    """
+    Test the CalculatorFactory for duplicate registration of a calculator.
 
+    This test checks if the CalculatorFactory raises a ValueError when trying to register
+    a calculator with an operation that is already registered.
+    """
+    #Arrange and Act
+    # Try to register the same calculator again
+    with pytest.raises(ValueError) as e:
+        @CalculatorFactory.register_calculator('add')
+        class DuplicateAddCalculator(Calculation):
+            operator_symbol = "+"
+            def execute(self):
+                return Operations.add(self.a, self.b)
+            
+
+                
+    # Assert that a ValueError is raised with the expected message
+    assert f"Calculation type 'add' already registered." in str(e.value)
+    
+
+
+# def test_duplicate_calculator_registration():
+#     # Attempt to register another calculator for an already registered operation
+#     with pytest.raises(ValueError, match="Calculaton type 'add' already registered."):
+#         @CalculatorFactory.register_calculator("add")
+#         class DummyAddCalculator(Calculation):
+#             operator_symbol = "+"
+#             def excute(self):
+#                 return Operations.add(self.a, self.b)
 
 
 #========== Test String Representation of Calculation Classes ===========
