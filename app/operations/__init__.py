@@ -65,17 +65,17 @@ class Operations:
             raise ValueError("Cannot divide by zero.")
         return a / b #math part where it will divide the two numbers and return the quotient as a float(decimal point number).
     
-    @staticmethod
-    def power(a: float, b: float) -> float:
-        """
-        Returns a raised to the power of b.
-        a:float - a supposed to be a number with type float(decimal point number)
-        b:float - b supposed to be a number with type float(decimal point number)
-        The result will be returned as a float(decimal point number)
+    # @staticmethod
+    # def power(a: float, b: float) -> float:
+    #     """
+    #     Returns a raised to the power of b.
+    #     a:float - a supposed to be a number with type float(decimal point number)
+    #     b:float - b supposed to be a number with type float(decimal point number)
+    #     The result will be returned as a float(decimal point number)
 
-        """
-        return a ** b #math part where it will raise the first number to the power of the second and return the result as a float(decimal point number).
+    #     """
+    #     return a ** b #math part where it will raise the first number to the power of the second and return the result as a float(decimal point number).
     
-    
+
     
 
