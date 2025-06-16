@@ -31,7 +31,6 @@ Supported Operations:
 - subtract <num1> <num2>: Subtracts the second number from the first.
 - multiply <num1> <num2>: Multiplies two numbers.
 - divide <num1> <num2>: Divides the first number by the second (cannot divide by zero).
-- power <num1> <num2>: Raises the first number to the power of the second.
 
 special commands:
 - help: Displays this help message.
@@ -48,7 +47,6 @@ add 5 3
 subtract 10 4
 multiply 2 3
 divide 8 2
-power 2 3
 """
     # Display the help message when the user types 'help'
     print(help_message)
