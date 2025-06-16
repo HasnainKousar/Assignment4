@@ -191,12 +191,13 @@ def calculator():
             # EAFP: Handle exceptions that may occur during input processing
             # This includes handling keyboard interrupts (Ctrl+C) 
             # Instead of checking for specific errors, we catch all exceptions that may arise
-            print("\nExiting calculator. Goodbye!")
+            print("\nKeyboard interrupt detected. Exiting calculator. Goodbye!")
             sys.exit(0)
         except EOFError:
             # EAFP: Handle EOFError (Ctrl+D) gracefully
-            print("\nExiting calculator. Goodbye!")
+            print("\nEOF detected. Exiting calculator. Goodbye!")
             sys.exit(0)
+
 
 
 # if the script is run directly, start the calculator REPL
