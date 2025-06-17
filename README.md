@@ -29,10 +29,10 @@ We also used automated testing to ensure our code's correctness and reliability.
 - **Unit Testing:**
   Each function and class method is tested in isolation to verify that it behaves as expected for various inputs, including edge cases and error conditions
 
--**Test Framework:**
+- **Test Framework:**
   We used the [pytest](https://pytest.org/) framework to write and run tests.
 
--**Mocking:**
+- **Mocking:**
   Used `unittest.mock.patch` decorator to mock dependencies
 
 - **Parameterized Testing:**  
@@ -53,15 +53,22 @@ We also used automated testing to ensure our code's correctness and reliability.
 
 ```
 module4/assingment4/
+├── .github/
+│   └── workflows/
+│       └── tests.yml
 ├── app/
 │   ├── calculation/
 │   │   └── __init__.py
-│   └── operations/
-│       └── __init__.py
+│   ├── operations/
+│   │   └── __init__.py
+│   ├── calculator.py
+│   └── __init__.py
 ├── tests/
 │   ├── test_calculation.py
 │   ├── test_calculator.py
 │   └── test_operations.py
+├── main.py
+├── README.md
 ```
 ## Extending the Calculator
 
@@ -360,3 +367,6 @@ Then submit the GitHub repository link as instructed.
 - [Python Downloads](https://www.python.org/downloads/)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - [GitHub SSH Setup Guide](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
+
+
+
